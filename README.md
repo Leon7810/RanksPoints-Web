@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # RanksPoints-Web
 Web panel for RanksPoints CS2 plugin
 =======
