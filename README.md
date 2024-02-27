@@ -49,4 +49,3 @@ This project is a learning endeavor for me and not a professional-grade applicat
 This project is licensed under GPL-3.0 license.
 
 and yes this was written by ai
->>>>>>> 0fbbb03 (Initial commit)
