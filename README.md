@@ -21,13 +21,19 @@ The CS2 RanksPoints Web Panel is a PHP-based interface I created to work with th
 
 ## Installation
 
-1. **Clone the Repository**: Download the project to your local machine or server.
-   ```
-   git clone https://github.com/Leon7810/RanksPoints-Web.git
-   ```
-2. **Database Setup**: Import the provided SQL file into your MySQL database to set up the necessary tables.
-3. **Configuration**: Edit the `inc/siteConfig.php` and `inc/dbConfig.php` in the PHP scripts to match your site and database settings.
-4. **Deployment**: Upload the files to your web server and navigate to the project URL in your browser.
+1. **Download the Project**:
+   - Begin by downloading the project files to your local machine or server. Use the following Git command to clone the repository:
+     ```
+     git clone https://github.com/Leon7810/RanksPoints-Web.git
+     ```
+
+2. **Configure the Database Connection**:
+   - Open the `inc/config.php` file in a text editor.
+   - Edit the configuration settings within this file to establish a connection to your database and configure the site settings as per your requirements.
+
+3. **Deploy to Web Server**:
+   - After configuring the settings, upload the project files to your web server.
+   - Navigate to your project's URL in a web browser to access the application.
 
 ## Usage
 
