@@ -1,6 +1,3 @@
-# RanksPoints-Web
-Web panel for RanksPoints CS2 plugin
-=======
 # CS2 RanksPoints Web Panel
 
 ## Overview
@@ -47,5 +44,4 @@ This project is a learning endeavor for me and not a professional-grade applicat
 ## License
 
 This project is licensed under GPL-3.0 license.
-
 and yes this was written by ai
