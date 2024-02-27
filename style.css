@@ -1,0 +1,186 @@
+@charset "UTF-8";
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,700);
+
+/* Base styles */
+body {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 300;
+  line-height: 1.42em;
+  color: #A7A1AE;
+  background-color: #141516;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Headings */
+h1, h2 {
+  font-weight: 300;
+  line-height: 1em;
+  text-align: center;
+}
+
+h1 {
+  font-size: 3em;
+  color: #ffffff;
+}
+
+h2 {
+  font-size: 1em;
+  padding-bottom: 2em;
+  color: #FB667A;
+}
+
+h2 a {
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.title2 { color: #909090; font-weight: bold}
+
+.container th h1 {
+  font-weight: bold;
+  font-size: 1em;
+  text-align: left;
+  color: #afafaf;
+}
+
+.container td {
+  font-weight: normal;
+  font-size: 1em;
+  -webkit-box-shadow: 0 2px 2px -2px #0E1119;
+  -moz-box-shadow: 0 2px 2px -2px #0E1119;
+  box-shadow: 0 2px 2px -2px #0E1119;
+}
+
+.container {
+  text-align: left;
+  overflow: hidden;
+  width: 80%;
+  margin: 0 auto;
+  display: table;
+  padding: 0 0 8em 0;
+}
+
+.container th {
+  background-color: #1F2739;
+}
+
+.container td, .container th {
+  padding-bottom: 1%;
+  padding-top: 1%;
+  padding-left:2%;  
+}
+
+/* Zebra striping for rows */
+.container tr:nth-child(odd) {
+  background-color: #323C50;
+}
+
+.container tr:nth-child(even) {
+  background-color: #2C3446;
+}
+
+/* Responsive styles */
+@media (max-width: 1000px) {
+  .container td:nth-child(9), .container th:nth-child(9),
+  .container td:nth-child(10), .container th:nth-child(10) {
+    display: none;
+  }
+}
+
+@media (max-width: 800px) {
+  .container td:nth-child(6), .container th:nth-child(6),
+  .container td:nth-child(7), .container th:nth-child(7) {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .container td:nth-child(1), .container th:nth-child(1),
+  .container td:nth-child(5), .container th:nth-child(5),
+  .container td:nth-child(8), .container th:nth-child(8) {
+    display: none;
+  }
+}
+
+/* Footer styles */
+footer {
+  text-align: center;
+  padding: 20px 0;
+  color: #fff;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  font-size: 0.8em;
+}
+
+/* Search form styles */
+.search-container {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.search-container input[type="text"], .search-container input[type="submit"] {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.search-container input[type="submit"] {
+  background-color: #FB667A;
+  color: white;
+  cursor: pointer;
+}
+
+.search-container input[type="submit"]:hover {
+  background-color: #e15670;
+}
+
+/* Medal styles */
+.gold, .silver, .bronze {
+  color: black !important;
+}
+
+.gold {
+  background-color: #FFD700 !important;
+}
+
+.silver {
+  background-color: silver !important;
+}
+
+.bronze {
+  background-color: #cd7f32 !important;
+}
+
+/* Table layout */
+table {
+  table-layout: fixed;
+  width: 100%;
+}
+
+/* Column header styles */
+.rank-header { width: 50px; text-align: center; }
+.name-header { width: 150px; text-align: center; }
+.points-header { width: 100px; text-align: center; }
+.kills-header { width: 100px; text-align: center; }
+.deaths-header { width: 100px; text-align: center; }
+.kd-header { width: 80px; text-align: center; }
+.wl-header { width: 80px; text-align: center; }
+.rank-header { width: 120px; text-align: center; }
+.playtime-header { width: 150px; text-align: center; }
+.last-played-header { width: 150px; text-align: center; }
+
+/* Icon styles */
+.icon {
+  color: white;
+}
+
+/* Utility classes */
+.disabled {
+  display: none;
+}
