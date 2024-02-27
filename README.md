@@ -39,6 +39,10 @@ The CS2 RanksPoints Web Panel is a PHP-based interface I created to work with th
 
 After installation, players can view their ranks and statistics by visiting the web page.
 
+### Features to Implement
+- [ ] Add pagination to the table.
+- [ ] Add filters on the table head.
+
 ## Contributing
 
 Contributions to the CS2 RanksPoints Plugin are welcome. Please feel free to fork the repository, make changes, and submit a pull request. If you find any bugs or have suggestions, please open an issue in the GitHub repository.
