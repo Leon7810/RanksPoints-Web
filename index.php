@@ -32,7 +32,7 @@ if ($search) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= htmlspecialchars($siteConfig['title']) ?></title>
     <script src="https://kit.fontawesome.com/54ff0c56ce.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="inc/style.css">
 </head>
 <body>
 <h1><?= htmlspecialchars($siteConfig['main_title_1']) ?> <span class="title2"><?= htmlspecialchars($siteConfig['main_title_2']) ?></span></h1>
