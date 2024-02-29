@@ -11,6 +11,7 @@ $siteConfig = [
     'main_title_2' => "System", // Second part of the site title
     'enable_footer' => true, // Toggle to enable or disable the footer
     'enable_search' => true, // Toggle to enable or disable the search function
+    'api_key' => "API-KEY", // Fill in your Steam API Key in here
 ];
 
 // Database Configuration

@@ -1,6 +1,6 @@
 # CS2 RanksPoints Web Panel
 
-![Screenshot of the Panel](ranks/panel.png)
+![Screenshot of the Panel](ranks/panel_2.png)
 
 ## Overview
 
@@ -125,7 +125,9 @@ Feel free to adjust the Docker and Docker Compose configurations to match your s
 After installation, players can view their ranks and statistics by visiting the web page.
 
 ## Features to Implement
-- [ ] Add pagination to the table.
+- [x] Make the design more modern.
+- [x] Add pagination to the table.
+- [x] Add caching.
 - [ ] Add filters on the table head.
 
 ## Contributing

@@ -99,4 +99,45 @@ function getRowClass($rank) {
         default: return "";
     }
 }
+
+/**
+ * Retrieves the full URL of a user's Steam profile picture using the Steam Web API.
+ * Caches the URL to avoid repeated API calls.
+ *
+ * @param string $steamId The SteamID64 of the user whose profile picture is being requested.
+ * @param string $apiKey Your personal Steam Web API key.
+ * @param int $cacheDuration The duration in seconds for how long to cache the profile picture URL.
+ * @return string The URL of the full-sized profile picture or a default image URL if not available.
+ */
+function getSteamUserProfilePicture($steamId, $apiKey, $cacheDuration = 86400) { // Default cache duration is 1 day
+    $cacheFile = "cache/{$steamId}.json";
+    // If cache file exists and is still valid, use it
+    if (file_exists($cacheFile) && (time() - filemtime($cacheFile) < $cacheDuration)) {
+        $data = json_decode(file_get_contents($cacheFile), true);
+    } else {
+        $url = "http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=$apiKey&steamids=$steamId";
+        
+        // Use cURL to fetch data
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        $result = curl_exec($ch);
+        curl_close($ch);
+        
+        // Decode the JSON response
+        $data = json_decode($result, true);
+        
+        // Cache the data
+        file_put_contents($cacheFile, json_encode($data));
+    }
+
+    // Check if the response is valid and contains the avatar URL
+    if (isset($data['response']['players'][0]['avatarfull'])) {
+        return $data['response']['players'][0]['avatarfull'];
+    } else {
+        // Return a default image if no avatar is found
+        return "ranks/no_pic.jpg";
+    }
+}
+
 ?>
