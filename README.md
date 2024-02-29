@@ -127,6 +127,7 @@ After installation, players can view their ranks and statistics by visiting the 
 ## Features to Implement
 - [x] Make the design more modern.
 - [x] Add pagination to the table.
+- [x] Add steam profile pictures.
 - [x] Add caching.
 - [ ] Add filters on the table head.
 
