@@ -1,5 +1,7 @@
 # CS2 RanksPoints Web Panel
 
+![Screenshot of the Panel](ranks/panel.png)
+
 ## Overview
 
 The CS2 RanksPoints Web Panel is a PHP-based interface I created to work with the CS2 RanksPoints Counter-Strike server plugin. It offers a user-friendly display of player stats such as ranks, playtime, and K/D ratios, making this data easily accessible and visually clear.
