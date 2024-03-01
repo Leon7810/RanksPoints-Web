@@ -1,6 +1,6 @@
 # CS2 RanksPoints Web Panel
 
-![Screenshot of the Panel](ranks/panel_2.png)
+![Screenshot of the Panel](ranks/panel_3.png)
 
 ## Overview
 
@@ -13,6 +13,22 @@ The CS2 RanksPoints Web Panel is a PHP-based interface I created to work with th
 - **Image Representation**: Each rank is associated with a specific image for easy identification.
 - **Steam ID Integration**: Converts various Steam ID formats to SteamID64 for standardization.
 - **Responsive Design**: The interface is designed to be user-friendly and responsive across various devices.
+
+## Configuration Options
+
+The CS2 RanksPoints Web Panel includes several configurable options in the `config.php` file. These settings allow you to customize various aspects of the panel:
+
+- `'title'`: The title for the browser tab. Default is "Ranking System".
+- `'main_title_1'`: The first part of the site title. Default is "Ranking".
+- `'main_title_2'`: The second part of the site title. Default is "System".
+- `'enable_footer'`: Toggle to enable or disable the footer. Set to `true` to enable.
+- `'enable_search'`: Toggle to enable or disable the search function. Set to `true` to enable.
+- `'enable_pagination'`: Toggle to enable or disable pagination. Set to `true` to enable.
+- `'enable_table_colours'`: Toggle to enable gold, silver, and bronze colours on the table. Set to `true` to enable.
+- `'api_key'`: Your Steam API Key. Replace "API-KEY" with your actual API key.
+- `'rows_per_page'`: The number of rows of players to show on the table per page. Default is "10".
+
+These variables are changeable and allow you to customize the functionality and appearance of your web panel.
 
 ## Dependencies
 
@@ -129,6 +145,8 @@ After installation, players can view their ranks and statistics by visiting the 
 - [x] Add pagination to the table.
 - [x] Add steam profile pictures.
 - [x] Add caching.
+- [x] Add light/dark mode.
+- [x] Add Bootstrap.
 - [ ] Add filters on the table head.
 
 ## Contributing

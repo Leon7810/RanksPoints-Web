@@ -110,7 +110,7 @@ function getRowClass($rank) {
  * @return string The URL of the full-sized profile picture or a default image URL if not available.
  */
 function getSteamUserProfilePicture($steamId, $apiKey, $cacheDuration = 86400) { // Default cache duration is 1 day
-    $cacheFile = "cache/{$steamId}.json";
+    $cacheFile = "cache/{$steamId}.json"; // Ensure the 'cache' directory exists and is writable
     // If cache file exists and is still valid, use it
     if (file_exists($cacheFile) && (time() - filemtime($cacheFile) < $cacheDuration)) {
         $data = json_decode(file_get_contents($cacheFile), true);

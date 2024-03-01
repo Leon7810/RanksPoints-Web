@@ -11,7 +11,10 @@ $siteConfig = [
     'main_title_2' => "System", // Second part of the site title
     'enable_footer' => true, // Toggle to enable or disable the footer
     'enable_search' => true, // Toggle to enable or disable the search function
+    'enable_pagination' => true, // Toggle to enable or disable the search function
+    'enable_table_colours' => true, // Toggle the gold, silver and bronze colours on the table
     'api_key' => "API-KEY", // Fill in your Steam API Key in here
+    'rows_per_page' => "10", // How many rows of players should be shown on the table, default is 10
 ];
 
 // Database Configuration
@@ -19,7 +22,7 @@ $dbConfig = [
     'hostname' => "HOSTNAME",
     'username' => "USERNAME",
     'password' => "PASSWORD",
-    'dbname' => "DATABASE",
+    'dbname'   => "DATABASE",
 ];
 
 /**
