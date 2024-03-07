@@ -1,7 +1,11 @@
 <?php
-// Include configuration and additional functions
 include 'inc/config.php';
 include 'inc/include.php';
+require ('inc/steamauth/steamauth.php');  
+
+if (isset($_SESSION['steamid'])) {
+    require ('inc/steamauth/userInfo.php');
+}
 
 // Retrieve the search term from the query parameters; default to an empty string if not set
 $search = $_GET['search'] ?? '';
@@ -18,18 +22,35 @@ $page = max((int)($_GET['page'] ?? 1), 1);
 // Calculate the SQL query offset based on the current page
 $offset = ($page - 1) * $itemsPerPage;
 
-// Prepare the appropriate SQL query based on whether a search term is present
-if ($search) {
-    // SQL query to search for players by name
-    $sql = "SELECT * FROM lvl_base WHERE name LIKE ? ORDER BY value DESC LIMIT ? OFFSET ?";
-    $stmt = $conn->prepare($sql);
-    $searchTerm = "%$search%";
-    $stmt->bind_param("sii", $searchTerm, $itemsPerPage, $offset);
+// Prepare the appropriate SQL query based on whether a search term is present & check if geo-location features are enabled
+if (!empty($siteConfig['enable_geoip'])) {
+    // Geo-location features are enabled
+    if ($search) {
+        $sql = "SELECT base.*, geo.country_code FROM lvl_base AS base
+                LEFT JOIN lvl_base_geoip AS geo ON base.steam = geo.steam
+                WHERE base.name LIKE ? ORDER BY base.value DESC LIMIT ? OFFSET ?";
+        $stmt = $conn->prepare($sql);
+        $searchTerm = "%$search%";
+        $stmt->bind_param("sii", $searchTerm, $itemsPerPage, $offset);
+    } else {
+        $sql = "SELECT base.*, geo.country_code FROM lvl_base AS base
+                LEFT JOIN lvl_base_geoip AS geo ON base.steam = geo.steam
+                ORDER BY base.value DESC LIMIT ? OFFSET ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ii", $itemsPerPage, $offset);
+    }
 } else {
-    // Standard SQL query to fetch players without a search filter
-    $sql = "SELECT * FROM lvl_base ORDER BY value DESC LIMIT ? OFFSET ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ii", $itemsPerPage, $offset);
+    // Geo-location features are not enabled
+    if ($search) {
+        $sql = "SELECT * FROM lvl_base WHERE name LIKE ? ORDER BY value DESC LIMIT ? OFFSET ?";
+        $stmt = $conn->prepare($sql);
+        $searchTerm = "%$search%";
+        $stmt->bind_param("sii", $searchTerm, $itemsPerPage, $offset);
+    } else {
+        $sql = "SELECT * FROM lvl_base ORDER BY value DESC LIMIT ? OFFSET ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ii", $itemsPerPage, $offset);
+    }
 }
 
 // Execute the prepared statement and store the result set
@@ -49,12 +70,19 @@ $totalPages = (int) ceil($totalItems / $itemsPerPage); // Cast to int for clarit
     <title><?= htmlspecialchars($siteConfig['title']) ?></title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script src="https://kit.fontawesome.com/54ff0c56ce.js" crossorigin="anonymous"></script>
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favico/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favico/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/img/favico/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/img/favico/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/img/favico/android-chrome-512x512.png">
+    <link rel="manifest" href="/img/favico/site.webmanifest">
+
     <link rel="stylesheet" href="inc/style.css">
 </head>
 <body>
 <div class="container-fluid mt-5 col-10 px-5 pt-5 pb-5 rounded shadow-lg">
     <div class="text-center mb-5">
-        <h1 class="title"><?= htmlspecialchars($siteConfig['main_title_1']) ?> <span class="text-secondary"><?= htmlspecialchars($siteConfig['main_title_2']) ?></span></h1>
+        <a href="index.php"><h1 class="title"><?= htmlspecialchars($siteConfig['main_title_1']) ?> <span class="text-secondary"><?= htmlspecialchars($siteConfig['main_title_2']) ?></span></h1></a>
         <div class="row">
             <?php if ($siteConfig['enable_search']): ?>
             <div class="col-12 mt-3">
@@ -65,6 +93,19 @@ $totalPages = (int) ceil($totalItems / $itemsPerPage); // Cast to int for clarit
                         <button type="submit" class="btn btn-primary">Search</button>
                     </div>
                     <button id="theme-toggle" class="btn btn-secondary mode"></button>
+                    <?php if(!isset($_SESSION['steamid'])): ?>
+                        <a href="?login" class="d-flex align-items-center justify-content-center bg-dark ml-2 col-3 rounded login mode btn btn-secondary">
+                            <i class="fa-brands fa-steam"></i> &nbsp;Login via Steam
+                        </a>
+                    <?php else: ?>
+                        <a href="profile.php" class="d-flex align-items-center justify-content-center bg-dark ml-2 col-1 rounded logout mode btn btn-secondary">
+                            Profile
+                        </a>
+                        <a href="?logout" class="d-flex align-items-center justify-content-center bg-dark ml-2 col-1 rounded logout mode btn btn-secondary">
+                            Logout
+                        </a>
+                    <?php endif; ?>
+
                 </form>
             </div>
             <?php endif; ?>
@@ -105,13 +146,24 @@ $totalPages = (int) ceil($totalItems / $itemsPerPage); // Cast to int for clarit
 
                             // Create the URL to the player's Steam profile
                             $steamProfileUrl = "https://steamcommunity.com/profiles/" . convertSteamIDToSteamID64($row['steam']);
-
                             
+                            // Create the URL to the player's Steam profile picture
                             $profilePictureUrl = getSteamUserProfilePicture(convertSteamIDToSteamID64($row['steam']), $siteConfig['api_key']);
+
+                            // Create the URL to the correct flag
+                            $flagUrl = "";
+                            if (!empty($siteConfig['enable_geoip']) && !empty($siteConfig['enable_flags']) && !empty($row['country_code'])) {
+                                $flagUrl = "<img src='https://flagsapi.com/" . $row['country_code'] . "/flat/64.png' alt='Country Flag' style='width:30px; margin-right: 10px;'>";
+                            }
+
 
                             echo "<tr class='$rowClass'>
                                     <td class='text-center align-middle'>$rank</td>
-                                    <td class='bold align-middle'><img src='$profilePictureUrl' alt='Steam Profile Picture' style='width:20%;border-radius: 50%;' class='mr-3'><a href='$steamProfileUrl' target='_blank'> {$row["name"]}</a></td>
+                                    <td class='bold align-middle'>
+                                    $flagUrl <!-- Display flag directly -->
+                                        <a href='$steamProfileUrl' target='_blank'><img src='$profilePictureUrl' alt='Steam Profile Picture' style='width:20%;border-radius: 50%;' class='mr-3'>
+                                        {$row["name"]}</a>
+                                    </td>
                                     <td  class='text-center align-middle'>{$row["value"]}</td>
                                     <td  class='text-center align-middle'>{$row["kills"]}</td>
                                     <td  class='text-center align-middle'>{$row["deaths"]}</td>
@@ -124,7 +176,7 @@ $totalPages = (int) ceil($totalItems / $itemsPerPage); // Cast to int for clarit
                             $rank++;
                         }
                     } else {
-                        echo "<tr><td colspan='10'>No records found</td></tr>";
+                        echo "<tr><td colspan='10'>No records found :(. Is your Database configuration correct?</td></tr>";
                     }
                     $conn->close();
                 ?>

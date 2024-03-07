@@ -190,9 +190,9 @@ table {
   color: white;
 }
 
-.dark-mode a {
+/* .dark-mode a {
   color: white;
-}
+} */
 
 .dark-mode .title {
   color: white;
@@ -262,4 +262,37 @@ table {
 
 a:hover {
   text-decoration: none;
+}
+
+.login {
+  background-color: #2a475e;
+  color: white;
+  transition: font-weight 0.5s ease; /* Adjust the time as needed */
+}
+
+.login:hover {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+}
+
+.profile-statistics {
+  max-width: 350px;
+  margin: 20px auto;
+}
+
+.dark-mode .profile-statistics ul li, .card-body{
+  color: black;
+}
+
+.dark-mode .profile {
+  color: black;
+}
+
+.black {
+  color: black;
+}
+
+.right-card {
+  height: 100%;
 }

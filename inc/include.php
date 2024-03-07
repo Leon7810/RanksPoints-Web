@@ -2,24 +2,24 @@
 
 // Defining the paths of rank images
 const RANK_IMAGES = [
-    0 => 'ranks/silver_1.png',
-    1 => 'ranks/silver_2.png',
-    2 => 'ranks/silver_3.png',
-    3 => 'ranks/silver_4.png',
-    4 => 'ranks/silver_elite.png',
-    5 => 'ranks/silver_elite_master.png',
-    6 => 'ranks/gold_nova_1.png',
-    7 => 'ranks/gold_nova_2.png',
-    8 => 'ranks/gold_nova_3.png',
-    9 => 'ranks/gold_nova_master.png',
-    10 => 'ranks/master_guardian_1.png',
-    11 => 'ranks/master_guardian_2.png',
-    12 => 'ranks/master_guardian_elite.png',
-    13 => 'ranks/dmg.png',
-    14 => 'ranks/le.png',
-    15 => 'ranks/lem.png',
-    16 => 'ranks/supreme.png',
-    17 => 'ranks/global.png'
+    0 => 'img/icons/silver_1.png',
+    1 => 'img/icons/silver_2.png',
+    2 => 'img/icons/silver_3.png',
+    3 => 'img/icons/silver_4.png',
+    4 => 'img/icons/silver_elite.png',
+    5 => 'img/icons/silver_elite_master.png',
+    6 => 'img/icons/gold_nova_1.png',
+    7 => 'img/icons/gold_nova_2.png',
+    8 => 'img/icons/gold_nova_3.png',
+    9 => 'img/icons/gold_nova_master.png',
+    10 => 'img/icons/master_guardian_1.png',
+    11 => 'img/icons/master_guardian_2.png',
+    12 => 'img/icons/master_guardian_elite.png',
+    13 => 'img/icons/dmg.png',
+    14 => 'img/icons/le.png',
+    15 => 'img/icons/lem.png',
+    16 => 'img/icons/supreme.png',
+    17 => 'img/icons/global.png'
 ];
 
 /**
@@ -29,7 +29,7 @@ const RANK_IMAGES = [
  * @return string The file path to the rank image.
  */
 function getRankImage(int $rankId): string {
-    return RANK_IMAGES[$rankId] ?? 'ranks/none.png'; // Standard picture if no rank is found.
+    return RANK_IMAGES[$rankId] ?? 'img/icons/none.png'; // Standard picture if no rank is found.
 }
 
 /**
@@ -47,6 +47,32 @@ function convertSteamIDToSteamID64(string $steamID): string {
     } else {
         // No idea what it is, so just return it.
         return $steamID;
+    }
+}
+
+/**
+ * Converts a SteamID64 to a SteamID.
+ *
+ * This function converts a SteamID64 to the traditional SteamID format (STEAM_X:Y:Z).
+ * The formula for this conversion is based on the standard SteamID64 conversion method.
+ *
+ * @param string $steamID64 The SteamID64 to be converted.
+ * @return string The converted SteamID if the input is a valid SteamID64; otherwise, the original input.
+ */
+function convertSteamID64ToSteamID(string $steamID64): string {
+    if (is_numeric($steamID64) && strlen($steamID64) >= 16) {
+        $steamID64 = bcsub($steamID64, '76561197960265728');
+        $steamID1 = bcmod($steamID64, '2'); 
+        $steamID64 = bcsub($steamID64, $steamID1); 
+        $steamID64 = bcdiv($steamID64, '2');
+
+        // Assuming the universe is '0' for individual accounts
+        $universe = 1; // Replace with logic to determine universe if available
+
+        return "STEAM_$universe:" . $steamID1 . ":" . $steamID64;
+    } else {
+        // The input is not a valid SteamID64, return it as is.
+        return $steamID64;
     }
 }
 
@@ -82,6 +108,11 @@ function calculateKDRatio($kills, $deaths) {
  * @return string The W/L ratio, formatted to two decimal places.
  */
 function calculateWLRatio($wins, $losses) {
+    // Ensure that $wins and $losses are not null, default to 0
+    $wins = $wins ?? 0;
+    $losses = $losses ?? 0;
+
+    // Calculate the win/loss ratio
     return number_format(($losses == 0 ? $wins : $wins / $losses), 2, '.', '');
 }
 
@@ -136,7 +167,7 @@ function getSteamUserProfilePicture($steamId, $apiKey, $cacheDuration = 86400) {
         return $data['response']['players'][0]['avatarfull'];
     } else {
         // Return a default image if no avatar is found
-        return "ranks/no_pic.jpg";
+        return "img/no_pic.jpg";
     }
 }
 

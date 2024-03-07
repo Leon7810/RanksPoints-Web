@@ -1,5 +1,5 @@
 <?php
-
+// error_reporting(E_ALL ^ E_WARNING); 
 /**
  * Ranking System Configuration and Database Connection Script
  */
@@ -13,8 +13,12 @@ $siteConfig = [
     'enable_search' => true, // Toggle to enable or disable the search function
     'enable_pagination' => true, // Toggle to enable or disable the search function
     'enable_table_colours' => true, // Toggle the gold, silver and bronze colours on the table
-    'api_key' => "API-KEY", // Fill in your Steam API Key in here
+    'api_key' => "YOUR-API-KEY", // Fill in your Steam API Key in here
     'rows_per_page' => "10", // How many rows of players should be shown on the table, default is 10
+
+    //GeoIP Module - Default FALSE
+    'enable_geoip' => true, // Toggles features that come with the GeoIP Module - ONLY PUT ON TRUE IF YOU HAVE THE CS2-GeoIP-RanksPoints INSTALLED ON YOUR SERVER
+    'enable_flags' => true, // Toggle the country flags - Only put on true 
 ];
 
 // Database Configuration
